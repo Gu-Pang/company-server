@@ -43,6 +43,7 @@ public class Company extends BaseEntity {
         this.addressDetail = addressDetail;
     }
 
+
     public void delete(UUID deletedBy){
         this.isDeleted = true;
     }
