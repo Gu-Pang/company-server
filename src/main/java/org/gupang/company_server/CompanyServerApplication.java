@@ -2,10 +2,10 @@ package org.gupang.company_server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication(scanBasePackages = {
-		"org.gupang.common"
-})
+@EnableFeignClients
+@SpringBootApplication
 public class CompanyServerApplication {
 
 	public static void main(String[] args) {
