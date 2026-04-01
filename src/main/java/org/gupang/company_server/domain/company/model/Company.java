@@ -2,7 +2,7 @@ package org.gupang.company_server.domain.company.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.gupang.entity.BaseEntity;
+import org.gupang.common.entity.BaseEntity;
 
 import java.util.UUID;
 
