@@ -225,4 +225,8 @@ gradle-app.setting
 
 #env
 .env
+
+postgres-data/
+
+docker-compose.infra.yaml
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,intellij+all,visualstudiocode,java,gradle
