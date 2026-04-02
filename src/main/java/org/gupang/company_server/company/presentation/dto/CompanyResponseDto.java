@@ -1,6 +1,6 @@
-package org.gupang.company_server.presentation.dto;
+package org.gupang.company_server.company.presentation.dto;
 
-import org.gupang.company_server.domain.company.model.Company;
+import org.gupang.company_server.company.domain.Company;
 
 import java.util.UUID;
 

@@ -1,4 +1,4 @@
-package org.gupang.company_server.domain.company.model;
+package org.gupang.company_server.company.domain;
 
 import jakarta.persistence.*;
 import lombok.*;

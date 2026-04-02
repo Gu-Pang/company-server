@@ -1,13 +1,13 @@
-package org.gupang.company_server.domain.company.service;
+package org.gupang.company_server.company.application;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.gupang.common.exception.CustomException;
-import org.gupang.company_server.domain.company.model.Company;
-import org.gupang.company_server.domain.company.repository.CompanyRepository;
+import org.gupang.company_server.company.domain.Company;
+import org.gupang.company_server.company.domain.CompanyRepository;
 import org.gupang.company_server.exception.ErrorCode;
-import org.gupang.company_server.presentation.dto.CompanyRequestDto;
-import org.gupang.company_server.presentation.dto.CompanyResponseDto;
+import org.gupang.company_server.company.presentation.dto.CompanyRequestDto;
+import org.gupang.company_server.company.presentation.dto.CompanyResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
