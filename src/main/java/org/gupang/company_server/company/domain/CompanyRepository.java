@@ -1,6 +1,5 @@
-package org.gupang.company_server.domain.company.repository;
+package org.gupang.company_server.company.domain;
 
-import org.gupang.company_server.domain.company.model.Company;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

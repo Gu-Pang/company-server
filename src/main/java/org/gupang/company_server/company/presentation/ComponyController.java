@@ -1,10 +1,10 @@
-package org.gupang.company_server.presentation.controller;
+package org.gupang.company_server.company.presentation;
 
 import lombok.RequiredArgsConstructor;
-import org.gupang.company_server.domain.company.model.Company;
-import org.gupang.company_server.domain.company.service.CompanyService;
-import org.gupang.company_server.presentation.dto.CompanyRequestDto;
-import org.gupang.company_server.presentation.dto.CompanyResponseDto;
+
+import org.gupang.company_server.company.application.CompanyService;
+import org.gupang.company_server.company.presentation.dto.CompanyRequestDto;
+import org.gupang.company_server.company.presentation.dto.CompanyResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/companies")
 @RequiredArgsConstructor
 public class ComponyController {
-    private final CompanyService  companyService;
+    private final CompanyService companyService;
 
     // 업체 생성
     @PostMapping
