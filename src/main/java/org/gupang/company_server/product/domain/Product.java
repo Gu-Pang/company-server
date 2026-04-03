@@ -19,6 +19,8 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product extends BaseEntity {
 
+    private static final int MINIMUM_STOCK_COUNT = 0;
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "product_id")
@@ -40,26 +42,17 @@ public class Product extends BaseEntity {
     public Product(String name, int  stock, long price, UUID companyId, CompanyProvider provider, RoleCheck rolecheck) {
         // 권한 체크
         checkAuthority(rolecheck);
-
-        if (stock <= 0) {
-            throw new CustomException(ErrorCode.INVALID_STOCK_QUANTITY);
-        }
-
-        if (price <= 0) {
-            throw new CustomException(ErrorCode.INVALID_PRODUCT_PRICE);
-        }
+        validateStock(stock);
+        validatePrice(price);
 
         this.name = name;
         this.stock = stock;
         this.price = price;
-
         this.company = new CompanyInfo(companyId, provider);
     }
 
     public void reduceStock(int amount) {
-        if (amount <= 0) {
-            throw new CustomException(ErrorCode.INVALID_STOCK_QUANTITY);
-        }
+        validateStock(amount);
 
         if (this.stock - amount < 0) {
             throw new CustomException(ErrorCode.INSUFFICIENT_STOCK);
@@ -69,27 +62,34 @@ public class Product extends BaseEntity {
     }
 
     public void addStock(int amount) {
-        if (amount <= CustomException(ErrorCode.INVALID_STOCK_QUANTITY);
-        }
-
+        validateStock(amount);
         this.stock += amount;
     }
 
     public void delete(RoleCheck rolecheck) {
-        // 권한 체크
         checkAuthority(rolecheck);
         this.isDeleted = true;
+    }
+
+    private void validateStock(int amount) {
+        if (amount <= MINIMUM_STOCK_COUNT) {
+            throw new CustomException(ErrorCode.INVALID_STOCK_QUANTITY);
+        }
+    }
+
+    private void validatePrice(long price) {
+        if (price <= 0) {
+            throw new CustomException(ErrorCode.INVALID_PRODUCT_PRICE);
+        }
     }
 
     private void checkAuthority(RoleCheck roleCheck) {
         if (roleCheck.hasRole(UserRole.MANAGER)) return;
 
         if (roleCheck.hasRole(UserRole.COMPANY)) {
-            // 상품 수정 또는 삭제인 경우는 등록한 업체의 상품인지 체크
             if (id != null && !roleCheck.isMyCompany(company.getId())) {
                 throw new CustomException(ErrorCode.UNAUTHORIZED_COMPANY);
             }
         }
     }
-
 }
