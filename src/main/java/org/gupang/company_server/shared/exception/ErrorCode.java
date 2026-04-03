@@ -1,4 +1,4 @@
-package org.gupang.company_server.exception;
+package org.gupang.company_server.shared.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +11,8 @@ public enum ErrorCode implements BaseErrorCode {
     // company error code
     COMPANY_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 업체를 찾을 수 없습니다."),
     DUPLICATE_COMPANY_NAME(HttpStatus.BAD_REQUEST, "이미 존재하는 업체명입니다."),
+    COMPANY_ID_REQUIRED(HttpStatus.BAD_REQUEST, "업체 ID는 필수 입력값입니다."),
+    COMPANY_INFO_MISSING(HttpStatus.BAD_REQUEST, "업체 정보가 누락되었습니다."),
 
     // product error code
     INSUFFICIENT_STOCK(HttpStatus.BAD_REQUEST, "재고 차감은 현재 남아있는 재고 이하여야 합니다."),

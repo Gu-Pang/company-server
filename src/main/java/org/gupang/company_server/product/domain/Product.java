@@ -5,12 +5,10 @@ import lombok.*;
 import org.gupang.common.entity.BaseEntity;
 import org.gupang.common.entity.UserRole;
 import org.gupang.common.exception.CustomException;
-import org.gupang.company_server.company.domain.Company;
-import org.gupang.company_server.exception.ErrorCode;
+import org.gupang.company_server.shared.exception.ErrorCode;
 import org.gupang.company_server.product.domain.service.CompanyProvider;
 import org.gupang.company_server.product.domain.service.RoleCheck;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -69,7 +67,8 @@ public class Product extends BaseEntity {
     }
 
     public void addStock(int amount) {
-        if (amount <= CustomException(ErrorCode.INVALID_STOCK_QUANTITY);
+        if (amount <= 0) {
+            throw new CustomException(ErrorCode.INVALID_STOCK_QUANTITY);
         }
 
         this.stock += amount;
@@ -91,5 +90,4 @@ public class Product extends BaseEntity {
             }
         }
     }
-
 }
