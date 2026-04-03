@@ -6,6 +6,7 @@ import org.gupang.common.entity.BaseEntity;
 import org.gupang.common.entity.UserRole;
 import org.gupang.common.exception.CustomException;
 import org.gupang.company_server.company.domain.Company;
+import org.gupang.company_server.exception.ErrorCode;
 import org.gupang.company_server.product.domain.service.CompanyProvider;
 import org.gupang.company_server.product.domain.service.RoleCheck;
 
@@ -41,11 +42,11 @@ public class Product extends BaseEntity {
         checkAuthority(rolecheck);
 
         if (stock <= 0) {
-            throw new RuntimeException("재고는 0보다 작을 수 없습니다.");
+            throw new CustomException(ErrorCode.INVALID_STOCK_QUANTITY);
         }
 
         if (price <= 0) {
-            throw new RuntimeException("상품 가격은 0보다 작을 수 없습니다.");
+            throw new CustomException(ErrorCode.INVALID_PRODUCT_PRICE);
         }
 
         this.name = name;
@@ -57,19 +58,18 @@ public class Product extends BaseEntity {
 
     public void reduceStock(int amount) {
         if (amount <= 0) {
-            throw new RuntimeException("차감할 재고는 1개 이상 입력하세요.");
+            throw new CustomException(ErrorCode.INVALID_STOCK_QUANTITY);
         }
 
         if (this.stock - amount < 0) {
-            throw new RuntimeException("재고 차감은 현재 남아 있는 재고(%d) 이하여야 됩니다.");
+            throw new CustomException(ErrorCode.INSUFFICIENT_STOCK);
         }
 
         this.stock -= amount;
     }
 
     public void addStock(int amount) {
-        if (amount <= 0) {
-            throw new RuntimeException("차감할 재고는 1개 이상 입력하세요.");
+        if (amount <= CustomException(ErrorCode.INVALID_STOCK_QUANTITY);
         }
 
         this.stock += amount;
@@ -87,7 +87,7 @@ public class Product extends BaseEntity {
         if (roleCheck.hasRole(UserRole.COMPANY)) {
             // 상품 수정 또는 삭제인 경우는 등록한 업체의 상품인지 체크
             if (id != null && !roleCheck.isMyCompany(company.getId())) {
-                throw new RuntimeException("상품을 등록한 업체만 처리 가능합니다.");
+                throw new CustomException(ErrorCode.UNAUTHORIZED_COMPANY);
             }
         }
     }
