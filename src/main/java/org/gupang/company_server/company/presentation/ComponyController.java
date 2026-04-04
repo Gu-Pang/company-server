@@ -3,6 +3,7 @@ package org.gupang.company_server.company.presentation;
 import lombok.RequiredArgsConstructor;
 
 import org.gupang.company_server.company.application.CompanyService;
+import org.gupang.company_server.company.application.dto.CompanyServiceDto;
 import org.gupang.company_server.company.presentation.dto.CompanyRequestDto;
 import org.gupang.company_server.company.presentation.dto.CompanyResponseDto;
 import org.springframework.data.domain.Page;
@@ -22,13 +23,25 @@ public class ComponyController {
     // 업체 생성
     @PostMapping
     public ResponseEntity<UUID> creteCompany(@RequestBody CompanyRequestDto requestDto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(companyService.createCompany(requestDto));
+        CompanyServiceDto.Create create = CompanyServiceDto.Create.builder()
+                .name(requestDto.name())
+                .address(requestDto.address())
+                .addressDetail(requestDto.addressDetail())
+                .hubId(requestDto.hubId())
+                .managerId(requestDto.managerId())
+                .build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(companyService.createCompany(create));
     }
 
     // 업체 수정
     @PatchMapping("/{company_id}")
     public ResponseEntity<Void> upateCompany(@PathVariable("company_id") UUID id, @RequestBody CompanyRequestDto requestDto){
-        companyService.updateCompany(id, requestDto);
+        CompanyServiceDto.Update update = CompanyServiceDto.Update.builder()
+                        .name(requestDto.name())
+                        .address(requestDto.address())
+                        .addressDetail(requestDto.addressDetail())
+                        .build();
+        companyService.updateCompany(id, update);
         return ResponseEntity.noContent().build();
     }
 
