@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.gupang.common.exception.CustomException;
 import org.gupang.company_server.company.domain.Company;
 import org.gupang.company_server.company.domain.CompanyRepository;
-import org.gupang.company_server.exception.ErrorCode;
+import org.gupang.company_server.shared.exception.ErrorCode;
 import org.gupang.company_server.company.presentation.dto.CompanyRequestDto;
 import org.gupang.company_server.company.presentation.dto.CompanyResponseDto;
 import org.springframework.data.domain.Page;
