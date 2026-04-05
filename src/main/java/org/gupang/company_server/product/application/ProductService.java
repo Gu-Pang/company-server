@@ -43,14 +43,13 @@ public class ProductService {
     // 상품 상세 조회
     public ProductResponseDto getProduct(UUID id) {
         return productRepository.findById(id)
-                .filter(product -> !product.isDeleted())
                 .map(ProductResponseDto::from)
-                .orElseThrow(()-> new CustomException((ErrorCode.PRODUCT_NOT_FOUND)));
+                .orElseThrow(() -> new CustomException(ErrorCode.PRODUCT_NOT_FOUND));
     }
 
     // 상품 전체 조회
     public Page<ProductResponseDto> getProducts(Pageable pageable) {
-        return productRepository.findAllByIsDeletedFalse(pageable)
+        return productRepository.findAll(pageable)
                 .map(ProductResponseDto::from);
     }
 

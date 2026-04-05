@@ -9,5 +9,5 @@ import java.util.UUID;
 public interface ProductRepository {
     Product save(Product product);
     Optional<Product> findById(UUID id);
-    Page<Product> findAllByIsDeletedFalse(Pageable pageable);
+    Page<Product> findAll(Pageable pageable);
 }
