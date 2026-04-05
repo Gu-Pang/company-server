@@ -22,7 +22,7 @@ public class ComponyController {
 
     // 업체 생성
     @PostMapping
-    public ResponseEntity<UUID> creteCompany(@RequestBody CompanyRequestDto requestDto){
+    public ResponseEntity<UUID> createCompany(@RequestBody CompanyRequestDto requestDto){
         CompanyServiceDto.Create create = CompanyServiceDto.Create.builder()
                 .name(requestDto.name())
                 .address(requestDto.address())
