@@ -14,7 +14,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "p_products")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product extends BaseEntity {
 
     private static final int MINIMUM_STOCK_COUNT = 0;
@@ -34,7 +34,7 @@ public class Product extends BaseEntity {
 
     private long price;
 
-    private boolean isDeleted;
+    private boolean isDeleted = false;
 
     @Builder
     public Product(String name, int  stock, long price, UUID companyId, CompanyProvider provider, RoleCheck rolecheck) {
@@ -47,21 +47,32 @@ public class Product extends BaseEntity {
         this.stock = stock;
         this.price = price;
         this.company = new CompanyInfo(companyId, provider);
+        this.isDeleted = false;
     }
 
     public void reduceStock(int amount) {
         validateStock(amount);
 
-        if (this.stock - amount < 0) {
+        if (this.stock - amount < 0)
             throw new CustomException(ErrorCode.INSUFFICIENT_STOCK);
-        }
 
         this.stock -= amount;
     }
 
     public void addStock(int amount) {
         validateStock(amount);
+        if (amount <= 0) throw new CustomException(ErrorCode.INVALID_STOCK_QUANTITY);
         this.stock += amount;
+    }
+
+    public void updateInfo(String name, int stock, long price, RoleCheck roleCheck) {
+        checkAuthority(roleCheck); // 수정 권한 확인
+        validateStock(stock);
+        validatePrice(price);
+
+        this.name = name;
+        this.stock = stock;
+        this.price = price;
     }
 
     public void delete(RoleCheck rolecheck) {
@@ -85,9 +96,12 @@ public class Product extends BaseEntity {
         if (roleCheck.hasRole(UserRole.MANAGER)) return;
 
         if (roleCheck.hasRole(UserRole.COMPANY)) {
-            if (id != null && !roleCheck.isMyCompany(company.getId())) {
+            if (this.id != null && !roleCheck.isMyCompany(this.company.getId())) {
                 throw new CustomException(ErrorCode.UNAUTHORIZED_COMPANY);
             }
+            return;
         }
+
+        throw new CustomException(ErrorCode.PERMISSION_DENIED);
     }
 }

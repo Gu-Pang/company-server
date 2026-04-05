@@ -18,4 +18,18 @@ public class ProductServiceDto {
         private long price;
         private UUID companyId;
     }
+
+    @Getter
+    @Builder
+    public static class Update {
+        private String name;
+        private int stock;
+        private long price;
+    }
+
+    @Getter
+    @Builder
+    public static class UpdateStock {
+        private int amount;
+    }
 }
