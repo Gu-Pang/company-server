@@ -10,4 +10,5 @@ public interface CompanyRepository {
     Company save(Company company);
     Optional<Company> findById(UUID id);
     Page<Company> findAllByIsDeletedFalse(Pageable pageable);
+    boolean existsByIdAndManagerId(UUID id, UUID managerId);
 }
