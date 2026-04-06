@@ -8,6 +8,7 @@ import org.gupang.common.exception.CustomException;
 import org.gupang.company_server.shared.exception.ErrorCode;
 import org.gupang.company_server.product.domain.service.CompanyProvider;
 import org.gupang.company_server.product.domain.service.RoleCheck;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ import java.util.UUID;
 @Table(name = "p_products")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLRestriction("deleted_at IS NULL")
 public class Product extends BaseEntity {
 
     private static final int MINIMUM_STOCK_COUNT = 0;
@@ -34,8 +36,6 @@ public class Product extends BaseEntity {
 
     private long price;
 
-    private boolean isDeleted;
-
     @Builder
     public Product(String name, int  stock, long price, UUID companyId, CompanyProvider provider, RoleCheck rolecheck) {
         // 권한 체크
@@ -52,21 +52,30 @@ public class Product extends BaseEntity {
     public void reduceStock(int amount) {
         validateStock(amount);
 
-        if (this.stock - amount < 0) {
+        if (this.stock - amount < 0)
             throw new CustomException(ErrorCode.INSUFFICIENT_STOCK);
-        }
 
         this.stock -= amount;
     }
 
     public void addStock(int amount) {
         validateStock(amount);
+        if (amount <= 0) throw new CustomException(ErrorCode.INVALID_STOCK_QUANTITY);
         this.stock += amount;
+    }
+
+    public void updateInfo(String name, int stock, long price, RoleCheck roleCheck) {
+        checkAuthority(roleCheck); // 수정 권한 확인
+        validateStock(stock);
+        validatePrice(price);
+
+        this.name = name;
+        this.stock = stock;
+        this.price = price;
     }
 
     public void delete(RoleCheck rolecheck) {
         checkAuthority(rolecheck);
-        this.isDeleted = true;
     }
 
     private void validateStock(int amount) {
@@ -85,9 +94,12 @@ public class Product extends BaseEntity {
         if (roleCheck.hasRole(UserRole.MANAGER)) return;
 
         if (roleCheck.hasRole(UserRole.COMPANY)) {
-            if (id != null && !roleCheck.isMyCompany(company.getId())) {
+            if (this.id != null && !roleCheck.isMyCompany(this.company.getId())) {
                 throw new CustomException(ErrorCode.UNAUTHORIZED_COMPANY);
             }
+            return;
         }
+
+        throw new CustomException(ErrorCode.PERMISSION_DENIED);
     }
 }

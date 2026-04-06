@@ -16,7 +16,9 @@ public enum ErrorCode implements BaseErrorCode {
 
     // product error code
     INSUFFICIENT_STOCK(HttpStatus.BAD_REQUEST, "재고 차감은 현재 남아있는 재고 이하여야 합니다."),
+    PRODUCT_NOT_FOUND(HttpStatus.BAD_REQUEST,"상품정보를 찾을수 없습니다."),
     INVALID_STOCK_QUANTITY(HttpStatus.BAD_REQUEST, "차감할 재고는 1개 이상이어야 합니다."),
+    PERMISSION_DENIED(HttpStatus.BAD_REQUEST,"접근 권한이 없습니다."),
     INVALID_PRODUCT_PRICE(HttpStatus.BAD_REQUEST, "상품 가격은 0보다 작을 수 없습니다."),
     UNAUTHORIZED_COMPANY(HttpStatus.BAD_REQUEST, "상품을 등록한 업체만 처리 가능합니다.");
 
