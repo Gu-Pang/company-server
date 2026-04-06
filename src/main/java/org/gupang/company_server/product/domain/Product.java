@@ -39,7 +39,7 @@ public class Product extends BaseEntity {
     @Builder
     public Product(String name, int  stock, long price, UUID companyId, CompanyProvider provider, RoleCheck rolecheck) {
         // 권한 체크
-        checkAuthority(rolecheck);
+        //checkAuthority(rolecheck);
         validateStock(stock);
         validatePrice(price);
 

@@ -34,6 +34,7 @@ public class ProductService {
                 .price(dto.getPrice())
                 .rolecheck(roleCheck)
                 .provider(provider)
+                .companyId(dto.getCompanyId())
                 .build();
 
         productRepository.save(product);

@@ -1,17 +1,16 @@
 package org.gupang.company_server.product.application.dto;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class ProductServiceDto {
 
     @Getter
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Create {
         private String name;
         private int stock;
@@ -21,6 +20,8 @@ public class ProductServiceDto {
 
     @Getter
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Update {
         private String name;
         private int stock;
@@ -29,6 +30,8 @@ public class ProductServiceDto {
 
     @Getter
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class UpdateStock {
         private int amount;
     }
