@@ -3,6 +3,7 @@ package org.gupang.company_server.company.application;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.gupang.common.exception.CustomException;
+import org.gupang.company_server.company.application.dto.CompanyServiceDto;
 import org.gupang.company_server.company.domain.Company;
 import org.gupang.company_server.company.domain.CompanyRepository;
 import org.gupang.company_server.shared.exception.ErrorCode;
@@ -22,23 +23,23 @@ public class CompanyService {
 
     // 업체등록
     @Transactional
-    public UUID createCompany(CompanyRequestDto requestDto){
+    public UUID createCompany(CompanyServiceDto.Create create){
         Company company = Company.builder()
-                .name(requestDto.name())
-                .address(requestDto.address())
-                .addressDetail(requestDto.addressDetail())
-                .hubId(requestDto.hubId())
-                .managerId(requestDto.managerId())
+                .name(create.getName())
+                .address(create.getAddress())
+                .addressDetail(create.getAddressDetail())
+                .hubId(create.getHubId())
+                .managerId(create.getManagerId())
                 .build();
         return companyRepository.save(company).getId();
     }
 
     // 업체 수정
     @Transactional
-    public void updateCompany(UUID id, CompanyRequestDto requestDto){
+    public void updateCompany(UUID id, CompanyServiceDto.Update update){
         Company company = companyRepository.findById(id)
                 .orElseThrow(()-> new CustomException(ErrorCode.COMPANY_NOT_FOUND));
-        company.update(requestDto.name(), requestDto.address(),requestDto.addressDetail());
+        company.update(update.getName(), update.getAddress(),update.getAddressDetail());
     }
 
     // 업체 상세 조회
