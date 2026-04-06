@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.gupang.common.exception.CustomException;
 import org.gupang.company_server.company.domain.Company;
 import org.gupang.company_server.company.domain.CompanyRepository;
-import org.gupang.company_server.exception.ErrorCode;
+import org.gupang.company_server.shared.exception.ErrorCode;
 import org.gupang.company_server.product.domain.service.CompanyData;
 import org.gupang.company_server.product.domain.service.CompanyProvider;
 import org.springframework.stereotype.Component;
