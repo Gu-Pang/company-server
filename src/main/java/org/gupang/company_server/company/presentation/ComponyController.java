@@ -2,6 +2,7 @@ package org.gupang.company_server.company.presentation;
 
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.gupang.company_server.company.application.CompanyService;
 import org.gupang.company_server.company.application.dto.CompanyServiceDto;
 import org.gupang.company_server.company.presentation.dto.CompanyRequestDto;
@@ -10,10 +11,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/companies")
 @RequiredArgsConstructor
@@ -52,7 +56,7 @@ public class ComponyController {
     }
 
     // 업체 상세 조회
-    @GetMapping("/{company_id")
+    @GetMapping("/{company_id}")
     public ResponseEntity<CompanyResponseDto> getOne(@PathVariable("company_id") UUID id){
         return ResponseEntity.ok(companyService.getCompany(id));
     }
@@ -62,5 +66,10 @@ public class ComponyController {
     public ResponseEntity<Void> deleteCompany(@PathVariable("company_id") UUID id){
         companyService.deleteCompany(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/test")
+    public void test(@AuthenticationPrincipal UserDetails user){
+        log.info("users: {}", user);
     }
 }
