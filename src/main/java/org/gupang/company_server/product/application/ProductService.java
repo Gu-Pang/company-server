@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -46,6 +48,18 @@ public class ProductService {
         return productRepository.findById(id)
                 .map(ProductResponseDto::from)
                 .orElseThrow(() -> new CustomException(ErrorCode.PRODUCT_NOT_FOUND));
+    }
+
+
+    public List<ProductResponseDto> getProducts(List<UUID> ids) {
+        List<ProductResponseDto> result = new ArrayList<>();
+        for (UUID id : ids) {
+            result.add(productRepository.findById(id)
+                    .map(ProductResponseDto::from)
+                    .orElseThrow(() -> new CustomException(ErrorCode.PRODUCT_NOT_FOUND)));
+        }
+
+        return result;
     }
 
     // 상품 전체 조회
@@ -85,4 +99,5 @@ public class ProductService {
                 .orElseThrow(() -> new CustomException(ErrorCode.PRODUCT_NOT_FOUND));
         product.reduceStock(dto.getAmount());
     }
+
 }

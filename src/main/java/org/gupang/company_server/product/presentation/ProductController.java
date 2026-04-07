@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -38,6 +39,11 @@ public class ProductController {
     @GetMapping("/{product_id}")
     public ResponseEntity<ProductResponseDto> getProduct(@PathVariable("product_id") UUID id) {
         return ResponseEntity.ok(productService.getProduct(id));
+    }
+
+    @GetMapping("/list/{product_ids}")
+    public ResponseEntity<List<ProductResponseDto>> getProducts(@PathVariable("product_ids") List<UUID> ids) {
+        return ResponseEntity.ok(productService.getProducts(ids));
     }
 
     // 상품 전체 조회 (Paging)
