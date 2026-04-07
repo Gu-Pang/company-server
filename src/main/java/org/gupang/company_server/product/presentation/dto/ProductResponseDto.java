@@ -6,20 +6,16 @@ import java.util.UUID;
 
 public record ProductResponseDto(
         UUID id,
-        String name,
         int stock,
         long price,
-        UUID companyId,
-        String companyName
+        UUID companyId
 ) {
     public static ProductResponseDto from(Product product) {
         return new ProductResponseDto(
                 product.getId(),
-                product.getName(),
                 product.getStock(),
                 product.getPrice(),
-                product.getCompany().getId(),
-                product.getCompany().getName()
+                product.getCompany().getId()
         );
     }
 }
